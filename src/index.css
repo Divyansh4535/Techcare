@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+.custom-select {
+    background: transparent;
+    /* border: 1px solid #ccc; */
+    border-radius: 4px;
+    padding: 8px;
+    color: #4a5568; /* Tailwind's gray-700 equivalent */
+    font-size: 1rem;
+  }
+  
+  .custom-select:focus {
+    outline: none;
+    border-color: #4299e1; /* Tailwind's blue-500 equivalent */
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); /* Focus ring effect */
+  }
+  
+  .custom-select option {
+    color: #2d3748; /* Tailwind's gray-800 equivalent */
+  }
+  

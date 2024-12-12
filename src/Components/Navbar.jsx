@@ -34,8 +34,8 @@ const Navbar = () => {
         },
     ]
     return (
-        <div className='h-[70px] w-full   flex items-center justify-center   '>
-            <nav className='flex  items-center justify-between h-full w-[99%] rounded-full  bg-[#FFFFFF]  '>
+        <div className='h-[70px] w-[97%]   flex items-center justify-center '>
+            <nav className='flex  items-center justify-between h-full w-[99%] rounded-full  bg-[#FFFFFF] px-5  '>
                 <div className='size-36 '>
                     <img src="/TestLogo.png" className='size-full object-contain  object-center ' alt="logo" />
                 </div>
@@ -64,7 +64,7 @@ const Navbar = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="3.714" height="18" viewBox="0 0 3.714 18">
                             <path id="more_vert_FILL0_wght300_GRAD0_opsz24" d="M421.858-752.767a1.788,1.788,0,0,1-1.312-.546,1.788,1.788,0,0,1-.546-1.312,1.788,1.788,0,0,1,.546-1.312,1.788,1.788,0,0,1,1.312-.546,1.788,1.788,0,0,1,1.312.546,1.788,1.788,0,0,1,.546,1.312,1.788,1.788,0,0,1-.546,1.312A1.789,1.789,0,0,1,421.858-752.767Zm0-7.143a1.788,1.788,0,0,1-1.312-.546,1.788,1.788,0,0,1-.546-1.312,1.788,1.788,0,0,1,.546-1.312,1.788,1.788,0,0,1,1.312-.546,1.788,1.788,0,0,1,1.312.546,1.788,1.788,0,0,1,.546,1.312,1.788,1.788,0,0,1-.546,1.312A1.789,1.789,0,0,1,421.858-759.91Zm0-7.143a1.788,1.788,0,0,1-1.312-.546A1.788,1.788,0,0,1,420-768.91a1.788,1.788,0,0,1,.546-1.312,1.788,1.788,0,0,1,1.312-.545,1.788,1.788,0,0,1,1.312.545,1.788,1.788,0,0,1,.546,1.312,1.788,1.788,0,0,1-.546,1.312A1.788,1.788,0,0,1,421.858-767.053Z" transform="translate(-420.001 770.767)" fill="#072635" />
                         </svg>
-                    </span>
+                    </span> 
                 </div>
             </nav>
         </div>
