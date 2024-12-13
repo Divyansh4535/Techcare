@@ -7,8 +7,8 @@ const Profile = () => {
     return (
         <div className='bg-[#FFFFFF] rounded-[15px] h-[700px] w-full p-5 gap-7  flex items-center justify-start flex-col pt-8 '>
             <div className='flex items-center gap-4 flex-col justify-center '>
-                <img className='size-[160px] ' src={patientDetails?.profile_picture || patientData[0]?.profile_picture} alt="profile" />
-                <h1 className='text-[24px] font-bold '>{patientDetails?.name || patientData[0]?.name}</h1>
+                <img className='size-[160px] ' src={patientDetails?.profile_picture || patientData[3]?.profile_picture} alt="profile" />
+                <h1 className='text-[24px] font-bold '>{patientDetails?.name || patientData[3]?.name}</h1>
             </div>
             <div className='flex items-start justify-start w-full  flex-col gap-4 '>
                 <div className='flex w-full p-1 items-center justify-start gap-3'>
@@ -22,7 +22,7 @@ const Profile = () => {
                     </span>
                     <div className='flex items-start w-full flex-col  justify-start'>
                         <h2 className='text-[14px] font-medium text-[#072635]'> Date Of Birth</h2>
-                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.date_of_birth || patientData[0]?.date_of_birth}</h2>
+                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.date_of_birth || patientData[3]?.date_of_birth}</h2>
                     </div>
                 </div>
                 <div className='flex w-full p-1 items-center justify-start gap-3'>
@@ -34,7 +34,7 @@ const Profile = () => {
                     </svg></span>
                     <div className='flex items-start w-full flex-col  justify-start'>
                         <h2 className='text-[14px] font-medium text-[#072635]'> Gender</h2>
-                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.gender || patientData[0]?.gender}</h2>
+                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.gender || patientData[3]?.gender}</h2>
                     </div>
                 </div><div className='flex w-full p-1 items-center justify-start gap-3'>
                     <span> <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
@@ -45,7 +45,7 @@ const Profile = () => {
                     </svg></span>
                     <div className='flex items-start w-full flex-col  justify-start'>
                         <h2 className='text-[14px] font-medium text-[#072635]'> Contact Info</h2>
-                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.phone_number || patientData[0]?.phone_number}</h2>
+                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.phone_number || patientData[3]?.phone_number}</h2>
                     </div>
                 </div><div className='flex w-full p-1 items-center justify-start gap-3'>
                     <span><svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
@@ -56,7 +56,7 @@ const Profile = () => {
                     </svg></span>
                     <div className='flex items-start w-full flex-col  justify-start'>
                         <h2 className='text-[14px] font-medium text-[#072635]'>Emergency Contacts </h2>
-                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.emergency_contact || patientData[0]?.emergency_contact}</h2>
+                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.emergency_contact || patientData[3]?.emergency_contact}</h2>
                     </div>
                 </div>
                 <div className='flex w-full p-1 items-center justify-start gap-3'>
@@ -68,7 +68,7 @@ const Profile = () => {
                     </svg></span>
                     <div className='flex items-start w-full flex-col  justify-start'>
                         <h2 className='text-[14px] font-medium text-[#072635]'>Insurance Provider </h2>
-                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.insurance_type || patientData[0]?.insurance_type}</h2>
+                        <h2 className='text-[14px] font-bold text-[#072635]'> {patientDetails?.insurance_type || patientData[3]?.insurance_type}</h2>
                     </div>
                 </div>
             </div>

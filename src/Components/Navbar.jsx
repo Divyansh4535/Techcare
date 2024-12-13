@@ -34,15 +34,15 @@ const Navbar = () => {
         },
     ]
     return (
-        <div className='h-[70px] w-[97%]   flex items-center justify-center '>
-            <nav className='flex  items-center justify-between h-full w-[99%] rounded-full  bg-[#FFFFFF] px-5  '>
+        <div className='h-[70px] w-[98%]   flex items-center justify-center '>
+            <nav className='flex  items-center justify-between h-full w-[99%] rounded-full  bg-[#FFFFFF] px-5'>
                 <div className='size-36 '>
                     <img src="/TestLogo.png" className='size-full object-contain  object-center ' alt="logo" />
                 </div>
                 <div className='flex items-center '>
                     <ul className='flex items-center justify-center gap-7 '>
                         {list?.map((item, idx) => (
-                            <li key={idx} className={`flex items-center gap-2 justify-center  ${item.className}`} >
+                            <li key={idx} className={`flex items-center gap-2 justify-center cursor-pointer ${item.className}`} >
                                 <span className=''> {item.icon}</span>
                                 <p className='text-[14px]  font-bold'>{item.title}</p>
                             </li>
@@ -68,7 +68,8 @@ const Navbar = () => {
                 </div>
             </nav>
         </div>
-    )
+
+)
 }
 
 export default Navbar

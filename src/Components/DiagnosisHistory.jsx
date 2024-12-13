@@ -1,45 +1,81 @@
-import React, { useContext } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useContext, useEffect, useState } from 'react';
+
 import UserContext from '../context/context';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 const DiagnosisHistory = () => {
     const { patientDetails, patientData } = useContext(UserContext)
-    const DH = patientDetails?.diagnosis_history
-    const DHD = patientData[0]?.diagnosis_history
 
-    console.log('DHD ===============>', DHD)
-    console.log('(Array.isArray(patientDetails) ? patientDetails : [patientData[0]])', (Array.isArray(patientDetails) ? patientDetails : [patientData[0]]))
+    const [showData, setShowData] = useState(null)
+    const [datefilter, setDateFilter] = useState(6)
+
+    const filterTime = [
+        {
+            id: 1,
+            name: 'Last 6 month',
+            value: 6
+        },
+        {
+            id: 2,
+            name: 'Last 1 Year',
+            value: 12
+        },
+        {
+            id: 3,
+            name: 'Last 2 Year',
+            value: 24
+        }
+    ]
+
+    const DHD = patientData[3]?.diagnosis_history;
+    const showD = DHD?.slice(0, datefilter)
 
 
+
+    const data = showD?.map(e =>
+    ({
+        name: `${e?.month.substring(0, 3)}, ${e?.year}` ,
+        Systolic: e?.blood_pressure?.systolic?.value,
+        Diastolic: e?.blood_pressure?.diastolic?.value,
+        data: e?.blood_pressure,
+        heartRate: e.heart_rate,
+        respiratoryRate: e.respiratory_rate,
+        temperature: e.temperature,
+
+    })
+    )
 
     return (
         <div className='p-2 w-full h-full flex flex-col items-center justify-start gap-3 '>
             <h1 className='text-[24px] text-[#072635] capitalize  w-full text-left font-bold '>Diagnosis History </h1>
-            <div className='w-full h-[300px] bg-[#F4F0FE] rounded-[12px]  flex items-center justify-between  '>
+            <div className='w-full h-[300px] bg-[#F4F0FE] rounded-[12px]  flex items-center justify-between '>
                 <div className='w-[70%] h-full   '>
-                    <div className='h-full w-full p-1  flex items-start justify-between flex-col' >
-                        <div className="flex justify-between px-5 w-full items-center mb-2">
+                    <div className='h-full w-full p-1  relative flex items-start justify-between flex-col' >
+                        <div className="flex justify-between px-5 w-full items-center   top-0  absolute  p-2 z-50">
                             <h3 className="text-[18px] font-semibold text-gray-700">Blood Pressure</h3>
-                            <select className="custom-select">
-                                <option className='text-[14px] '> Last 6 months</option>
+                            <select onChange={(e) => setDateFilter(e?.target?.value)} className="bg-transparent cursor-pointer outline-none  ">
+                                {filterTime?.map(e => (
+                                    <option className='text-[10px] bg-transparent ' value={e?.value} key={e?.id}> {e?.name}</option>
+                                ))}
                             </select>
                         </div>
-                        {/* <div className='w-full h-full flex items-center justify-start '>
-                            <ResponsiveContainer width="100%" height={250}>
-                                <LineChart data={data}>
-                                    <CartesianGrid strokeDasharray="2 2" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis
-                                        ticks={[60, 80, 100, 120, 140, 160, 180]}
-                                        domain={[60, 180]}
-                                    />
-                                    <Tooltip />
-                              
-                                    <Line type="monotone" dataKey="systolic" stroke="#FF69B4" activeDot={{ r: 6 }} />
-                                    <Line type="monotone" dataKey="diastolic" stroke="#8884d8" />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div> */}
+                        <div className='w-full h-full flex items-center justify-start  '>
+                            <LineChart
+                                onMouseMove={(e) => {
+                                    if (e?.isTooltipActive) {
+                                        setShowData(e)
+                                    }
+                                }}
+                                width={600} height={330} data={data} >
+                                <Line type="monotone" dataKey="Systolic" stroke="#8C6FE6" />
+                                <Line type="" dataKey="Diastolic" stroke="#E66FD2" />
+                                <CartesianGrid
+                                    stroke="#ccc" strokeDasharray="1 1" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                            </LineChart>
+                        </div>
                     </div>
                 </div>
                 <div className=' w-[30%] h-full flex items-start p-2 gap-5  '>
@@ -49,22 +85,22 @@ const DiagnosisHistory = () => {
                                 <span className="inline-block w-3 h-3 rounded-full bg-pink-500 mr-2"></span>
                                 <span className="text-gray-700 font-medium">Systolic</span>
                             </div>
-                            <span className="ml-2 text-xl font-bold">160</span>
-                            <span className="ml-2 text-sm text-gray-500">▲ Higher than Average</span>
+                            <span className="ml-2 text-xl font-bold">{showData?.activePayload[0]?.payload?.data?.systolic?.value || 160}</span>
+                            <span className="ml-2 text-sm text-gray-500">▲ {showData?.activePayload[0]?.payload?.data?.systolic?.levels || "Higher than Average"}</span>
                         </div>
                         <div className='h-[100px] w-full flex items-start  flex-col  p-1 '>
                             <div className='w-full flex items-center  gap-2 '>
                                 <span className="inline-block w-3 h-3 rounded-full bg-purple-500 mr-2"></span>
                                 <span className="text-gray-700 font-medium">Diastolic</span>
                             </div>
-                            <span className="ml-2 text-xl font-bold">78</span>
-                            <span className="ml-2 text-sm text-gray-500">▼ Lower than Average</span>
+                            <span className="ml-2 text-xl font-bold">{showData?.activePayload[0]?.payload?.data?.diastolic?.value || 78}</span>
+                            <span className="ml-2 text-sm text-gray-500">▼ {showData?.activePayload[0]?.payload?.data?.diastolic?.levels || "Lower than Average"}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className='flex items-center justify-between w-full h-[245px]'>
+            <div className='flex items-center justify-between w-full h-[245px] gap-4'>
                 <div className='bg-[#E0F3FA] h-full w-[228px] p-5 flex items-start justify-start gap-3 flex-col rounded-[12px]'>
                     <span>
                         <svg id="respiratory_rate" data-name="respiratory rate" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96" height="96" viewBox="0 0 96 96">
@@ -89,9 +125,9 @@ const DiagnosisHistory = () => {
                     </span>
                     <div className='flex items-center justify-start flex-col leading-7'>
                         <p className='text-[15px] font-medium text-left w-full '>Respiratory Rate</p>
-                        <h1 className='text-[30px] text-left w-full font-bold'> 20 bpm</h1>
+                        <h1 className='text-[30px] text-left w-full font-bold'> {showData?.activePayload[0]?.payload?.respiratoryRate?.value || 20} bpm </h1>
                     </div>
-                    <p className=' text-left w-full text-[15px] font-medium  pt-1'>Normal</p>
+                    <p className=' text-left w-full text-[15px] font-medium  pt-1'>{showData?.activePayload[0]?.payload?.respiratoryRate?.levels || "Normal"}</p>
                 </div>
                 <div className='bg-[#FFE6E9] h-full w-[228px] p-5 flex items-start justify-start gap-3 flex-col rounded-[12px]'>
                     <span>
@@ -120,9 +156,9 @@ const DiagnosisHistory = () => {
                     </span>
                     <div className='flex items-center justify-start flex-col leading-7'>
                         <p className='text-[15px] font-medium text-left w-full '>Temperature</p>
-                        <h1 className='text-[30px] font-bold text-left w-full'> 98.6°F</h1>
+                        <h1 className='text-[30px] font-bold text-left w-full'> {showData?.activePayload[0]?.payload?.temperature?.value || 98.6}°F</h1>
                     </div>
-                    <p className='text-[15px] font-medium  pt-1 text-left w-full'>Normal</p>
+                    <p className='text-[15px] font-medium  pt-1 text-left w-full'>{showData?.activePayload[0]?.payload?.temperature?.levels || "Normal"}</p>
 
                 </div>
                 <div className='bg-[#FFE6F1] h-full w-[228px] p-5 flex items-start justify-start gap-3 flex-col rounded-[12px]'>
@@ -147,9 +183,9 @@ const DiagnosisHistory = () => {
                     </span>
                     <div className='flex items-center justify-start flex-col leading-7'>
                         <p className='text-[15px] font-medium text-left w-full '>Heart Rate</p>
-                        <h1 className='text-[30px] font-bold text-left w-full'> 78 bpm</h1>
+                        <h1 className='text-[30px] font-bold text-left w-full'> {showData?.activePayload[0]?.payload?.heartRate?.value || 78}bpm</h1>
                     </div>
-                    <p className='text-[15px] font-medium  pt-1 text-left w-full'>Lower than Average</p>
+                    <p className='text-[15px] font-medium  pt-1 text-left w-full'>{showData?.activePayload[0]?.payload?.heartRate?.levels || "Lower than Average"}</p>
 
                 </div>
             </div>

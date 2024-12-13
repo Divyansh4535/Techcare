@@ -1,0 +1,30 @@
+/* Custom Scrollbar Styles */
+.scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+    transition: scrollbar-color 0.2s ease;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 6px;
+  }
+  
+  .scrollbarHidden {
+    overflow: hidden; /* Hides both x and y scrollbars */
+  }
