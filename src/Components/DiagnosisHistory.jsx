@@ -11,6 +11,11 @@ const DiagnosisHistory = () => {
 
     const filterTime = [
         {
+            id: 0,
+            name: 'Last 3 month',
+            value: 3
+        },
+        {
             id: 1,
             name: 'Last 6 month',
             value: 6
@@ -22,19 +27,34 @@ const DiagnosisHistory = () => {
         },
         {
             id: 3,
-            name: 'Last 2 Year',
-            value: 24
+            name: 'Last 1.5 Year',
+            value: 18
         }
     ]
+    
+        const [diagnosticHistory, setDiagnosticHistory] = useState(
+            (patientData.length > 0 && patientData[3]?.diagnosis_history) || []
+        )
 
     const DHD = patientData[3]?.diagnosis_history;
-    const showD = DHD?.slice(0, datefilter)
+    const showD = diagnosticHistory?.slice(0, datefilter )
+
+
+
+    useEffect(() => {
+        if (patientData.length > 0) {
+            setDiagnosticHistory(patientDetails?.diagnosis_history || patientData[3]?.diagnosis_history)
+        } else {
+            setDiagnosticHistory([]);
+        }
+    }, [patientDetails, patientData])
+
 
 
 
     const data = showD?.map(e =>
     ({
-        name: `${e?.month.substring(0, 3)}, ${e?.year}` ,
+        name: `${e?.month.substring(0, 3)}, ${e?.year}`,
         Systolic: e?.blood_pressure?.systolic?.value,
         Diastolic: e?.blood_pressure?.diastolic?.value,
         data: e?.blood_pressure,
@@ -48,29 +68,28 @@ const DiagnosisHistory = () => {
     return (
         <div className='p-2 w-full h-full flex flex-col items-center justify-start gap-3 '>
             <h1 className='text-[24px] text-[#072635] capitalize  w-full text-left font-bold '>Diagnosis History </h1>
-            <div className='w-full h-[300px] bg-[#F4F0FE] rounded-[12px]  flex items-center justify-between '>
+            <div className='w-full h-[300px] bg-[rgb(244,240,254)] rounded-[12px]  flex items-center justify-between '>
                 <div className='w-[70%] h-full   '>
                     <div className='h-full w-full p-1  relative flex items-start justify-between flex-col' >
                         <div className="flex justify-between px-5 w-full items-center   top-0  absolute  p-2 z-50">
                             <h3 className="text-[18px] font-semibold text-gray-700">Blood Pressure</h3>
                             <select onChange={(e) => setDateFilter(e?.target?.value)} className="bg-transparent cursor-pointer outline-none  ">
                                 {filterTime?.map(e => (
-                                    <option className='text-[10px] bg-transparent ' value={e?.value} key={e?.id}> {e?.name}</option>
+                                    <option className='text-[10px] bg-transparent ' value={e?.value} key={e?.id}> {e?.name} </option>
                                 ))}
                             </select>
                         </div>
-                        <div className='w-full h-full flex items-center justify-start  '>
+                        <div className='w-full h-full  mt-5  flex items-center   '>
                             <LineChart
                                 onMouseMove={(e) => {
                                     if (e?.isTooltipActive) {
                                         setShowData(e)
-                                    }
-                                }}
-                                width={600} height={330} data={data} >
-                                <Line type="monotone" dataKey="Systolic" stroke="#8C6FE6" />
-                                <Line type="" dataKey="Diastolic" stroke="#E66FD2" />
+                                    }}}    
+                                width={600} height={300} data={data} >
+                                <Line type="monotone" dataKey="Systolic" stroke="#E66FD2" />
+                                <Line type="monotone" dataKey="Diastolic" stroke="#8C6FE6" />
                                 <CartesianGrid
-                                    stroke="#ccc" strokeDasharray="1 1" />
+                                    stroke="#ccc" strokeDasharray="1" />
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />
@@ -79,7 +98,7 @@ const DiagnosisHistory = () => {
                     </div>
                 </div>
                 <div className=' w-[30%] h-full flex items-start p-2 gap-5  '>
-                    <div className="  justify-between h-[200px]  flex items-center flex-col ">
+                    <div className="justify-between h-[200px] flex items-center flex-col ">
                         <div className='border-b border-[#CBC8D4] h-[100px] w-full flex items-start  flex-col  p-1 '>
                             <div className='w-full flex items-center  gap-2 '>
                                 <span className="inline-block w-3 h-3 rounded-full bg-pink-500 mr-2"></span>
